@@ -1,0 +1,21 @@
+{
+  "cruises": [
+    {
+      "reservationId": "99999999",
+      "itineraryName": "3-Day Sample Bahamas & Cozumel From Miami",
+      "itineraryCode": "SAMPLE3MIANASCZMMIA",
+      "startDate": 1788307200000,
+      "endDate": 1788566400000,
+      "vacationStartDate": "2026-09-01T00:00:00",
+      "vacationEndDate": "2026-09-04T00:00:00",
+      "departurePort": "MIA",
+      "startingLocation": "Miami, Florida",
+      "status": "BOOKED_NCL_API",
+      "fullAmountPaymentIndicator": true,
+      "guests": [
+        { "client": { "id": "88888888" }, "refNumber": "1" },
+        { "client": { "id": "88888888" }, "refNumber": "2" }
+      ]
+    }
+  ]
+}

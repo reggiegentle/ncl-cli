@@ -1,0 +1,120 @@
+{
+  "clientId": 88888888,
+  "reservation": { "id": 99999999, "currency": "$", "currencyCode": "USD" },
+  "filters": {
+    "itinerary": [
+      { "portCode": "MIA", "dateOfCruise": "09/01/2026", "dayOfCruise": 1, "name": "Miami, Florida", "isTour": false, "isPackage": false, "mappedCode": "MIA" },
+      { "portCode": "NAS", "dateOfCruise": "09/02/2026", "dayOfCruise": 2, "name": "Nassau, Bahamas", "isTour": false, "isPackage": false, "mappedCode": "NAS" },
+      { "portCode": "AtSea", "dateOfCruise": "09/03/2026", "dayOfCruise": 3, "name": "At Sea", "isTour": false, "isPackage": false, "mappedCode": "AtSea" },
+      { "portCode": "CZM", "dateOfCruise": "09/04/2026", "dayOfCruise": 4, "name": "Cozumel, Mexico", "isTour": false, "isPackage": false, "mappedCode": "CZM" }
+    ]
+  },
+  "products": {
+    "shorex": [
+      {
+        "id": "NASA01",
+        "productType": "EXCURSION",
+        "displayPrice": 89.99,
+        "displayPriceFormatted": "$89.99",
+        "displayChildPrice": 59.99,
+        "displayChildPriceFormatted": "$59.99",
+        "duration": 4,
+        "durationDisplay": "4 hours",
+        "durationDisplayNoLabel": "4",
+        "earliestStartTimeDisplay": "09:00 am",
+        "hasExpired": false,
+        "daysOfCruise": [2],
+        "shorexAvailablePurchaseOptions": [{ "language": "English", "dates": ["09/02/2026"] }],
+        "cmsData": {
+          "code": "NASA01",
+          "title": "Sample Reef Snorkel Adventure",
+          "portName": "Nassau, Bahamas",
+          "activityLevel": "2",
+          "activityDesc": "Moderate activity with some walking and swimming.",
+          "needToKnow": "Bring a towel, swimsuit, and sunscreen. Swimming ability required.",
+          "description": "<p>Explore a vibrant coral reef by boat.</p>",
+          "excType": "Water",
+          "destination": "CARIBBEAN"
+        }
+      },
+      {
+        "id": "NASA02",
+        "productType": "EXCURSION",
+        "displayPrice": 129.0,
+        "displayPriceFormatted": "$129.00",
+        "displayChildPrice": null,
+        "displayChildPriceFormatted": null,
+        "duration": 6,
+        "durationDisplay": "6 hours",
+        "durationDisplayNoLabel": "6",
+        "earliestStartTimeDisplay": "08:30 am",
+        "hasExpired": false,
+        "daysOfCruise": [2],
+        "shorexAvailablePurchaseOptions": [],
+        "cmsData": {
+          "code": "NASA02",
+          "title": "Sample Island Jeep Expedition",
+          "portName": "Nassau, Bahamas",
+          "activityLevel": "3",
+          "activityDesc": "Demanding activity over rough terrain.",
+          "needToKnow": "Closed-toe shoes required. Not suitable for guests with back problems.",
+          "description": "<p>Off-road adventure across the island.</p>",
+          "excType": "Land",
+          "destination": "CARIBBEAN"
+        }
+      },
+      {
+        "id": "CZMA01",
+        "productType": "EXCURSION",
+        "displayPrice": 75.5,
+        "displayPriceFormatted": "$75.50",
+        "displayChildPrice": 45.5,
+        "displayChildPriceFormatted": "$45.50",
+        "duration": 3,
+        "durationDisplay": "3 hours",
+        "durationDisplayNoLabel": "3",
+        "earliestStartTimeDisplay": "10:00 am",
+        "hasExpired": false,
+        "daysOfCruise": [4],
+        "shorexAvailablePurchaseOptions": [{ "language": "English", "dates": ["09/04/2026"] }],
+        "cmsData": {
+          "code": "CZMA01",
+          "title": "Sample Mayan Ruins & Beach Tour",
+          "portName": "Cozumel, Mexico",
+          "activityLevel": "1",
+          "activityDesc": "Easy activity, mostly by coach.",
+          "needToKnow": "Hat and sunscreen recommended.",
+          "description": "<p>Visit ancient ruins then relax on the beach.</p>",
+          "excType": "Cultural",
+          "destination": "CARIBBEAN"
+        }
+      },
+      {
+        "id": "CZMA02",
+        "productType": "EXCURSION",
+        "displayPrice": 210.0,
+        "displayPriceFormatted": "$210.00",
+        "displayChildPrice": null,
+        "displayChildPriceFormatted": null,
+        "duration": 7,
+        "durationDisplay": "7 hours",
+        "durationDisplayNoLabel": "7",
+        "earliestStartTimeDisplay": "08:00 am",
+        "hasExpired": true,
+        "daysOfCruise": [4],
+        "shorexAvailablePurchaseOptions": [],
+        "cmsData": {
+          "code": "CZMA02",
+          "title": "Sample Deep Sea Fishing Charter",
+          "portName": "Mislabeled Port, Nowhere",
+          "activityLevel": "2",
+          "activityDesc": "Moderate activity aboard a fishing boat.",
+          "needToKnow": "Ages 8 and up. Motion sickness medication recommended.",
+          "description": "<p>Half-day sport fishing charter.</p>",
+          "excType": "Water",
+          "destination": "CARIBBEAN"
+        }
+      }
+    ]
+  }
+}

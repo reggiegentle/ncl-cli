@@ -1,0 +1,16 @@
+node_modules/
+dist/
+*.log
+# never commit auth or raw captures
+config.json
+*.har
+tests/fixtures/*.raw.json
+# raw recon captures / real payloads
+real-*.json
+ncl-capture*.jsonl
+.DS_Store
+
+# Private workspace — real cruise extracts, images, planning notes, recon
+# scripts. NEVER tracked. Anchored so no glob can pull it in. The secret-sweep
+# fails the build if anything under here is ever staged.
+/.local/

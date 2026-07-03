@@ -1,0 +1,14 @@
+{
+  "cart": {
+    "price": { "currency": "$", "formattedPrice": "$89.99", "total": 8999 },
+    "numItems": 1,
+    "clientId": 88888888,
+    "reservationId": 99999999,
+    "isPaidInFull": true
+  },
+  "offlineItems": {
+    "shorex": [{ "id": "NASA01", "title": "Sample Reef Snorkel Adventure" }],
+    "dining": [],
+    "numItems": 1
+  }
+}
