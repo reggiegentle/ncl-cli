@@ -103,6 +103,29 @@ test("collectBookedCodes pulls alpha-prefixed product codes from the cart", () =
   assert.equal([...codes].every((c) => /^[A-Za-z]/.test(c)), true);
 });
 
+test("normalizeExcursions resolves image paths to ncl.com URLs (spaces encoded)", () => {
+  const res = load("reservations.json");
+  const s = normalizeSailing(load("explore-plan.json"), res.cruises[0]);
+  const excs = normalizeExcursions(load("explore-plan.json"), s, load("cart.json"));
+  const nasa01 = excs.find((e) => e.code === "NASA01");
+  assert.equal(nasa01.images.large, "https://www.ncl.com/sites/default/files/NAS_01%201920%20LG.jpg");
+  assert.equal(nasa01.images.thumb, "https://www.ncl.com/sites/default/files/NAS_01_204x138.jpg");
+  assert.equal(nasa01.images.xlarge, "https://www.ncl.com/sites/default/files/NAS_01_1920_XL.jpg");
+  assert.deepEqual(nasa01.images.gallery, ["https://www.ncl.com/sites/default/files/NAS_01_281x146.jpg"]);
+  // an excursion with no image fields yields undefined urls and an empty gallery
+  const czma02 = excs.find((e) => e.code === "CZMA02");
+  assert.equal(czma02.images.large, undefined);
+  assert.deepEqual(czma02.images.gallery, []);
+});
+
+test("summary carries the large image url (thumb fallback)", () => {
+  const res = load("reservations.json");
+  const s = normalizeSailing(load("explore-plan.json"), res.cruises[0]);
+  const excs = normalizeExcursions(load("explore-plan.json"), s, load("cart.json"));
+  assert.equal(summarizeExcursion(excs.find((e) => e.code === "NASA01")).image, "https://www.ncl.com/sites/default/files/NAS_01%201920%20LG.jpg");
+  assert.equal(summarizeExcursion(excs.find((e) => e.code === "CZMA02")).image, undefined);
+});
+
 test("summarizeExcursion drops detail fields", () => {
   const res = load("reservations.json");
   const s = normalizeSailing(load("explore-plan.json"), res.cruises[0]);

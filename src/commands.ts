@@ -1,5 +1,6 @@
 import { Command } from "commander";
-import { writeFile } from "node:fs/promises";
+import { writeFile, mkdir } from "node:fs/promises";
+import { join } from "node:path";
 import { fail, makeError, ok, printJson } from "./output.js";
 import { clearConfig, getDisplayConfigPath, redactCookie, resolveConfig } from "./config.js";
 import { importFromCdp, saveAndValidate, validateConfig } from "./auth.js";
@@ -109,6 +110,7 @@ export function buildProgram(): Command {
     .description("excursions across all ports (summarized)")
     .option("--sailing <ref>", "sailing ref from `cruise list` (default: first)")
     .option("--port <ref>", "filter to a port ref, e.g. port-002")
+    .option("--full", "return full excursion objects (detail + image URLs) instead of summaries")
     .option("--raw", "return the full upstream explore-plan payload")
     .action(async (opts) => {
       try {
@@ -118,7 +120,32 @@ export function buildProgram(): Command {
         const cart = await safeCart(client, ids);
         let excs = normalizeExcursions(explorePlan, sailing, cart);
         if (opts.port) excs = excs.filter((e) => e.portRef === opts.port);
-        printJson(ok(excs.map(summarizeExcursion)));
+        printJson(ok(opts.full ? excs : excs.map(summarizeExcursion)));
+      } catch (e) {
+        printJson(fail(makeError(e)));
+      }
+    });
+  exc
+    .command("images")
+    .description("download excursion images to a folder (read-only GETs)")
+    .requiredOption("--out <dir>", "destination folder for the images")
+    .option("--sailing <ref>", "sailing ref from `cruise list` (default: first)")
+    .option("--size <size>", "thumb | large | xlarge", "large")
+    .option("--port <ref>", "only this port ref, e.g. port-002")
+    .action(async (opts) => {
+      try {
+        const size = (["thumb", "large", "xlarge"].includes(opts.size) ? opts.size : "large") as "thumb" | "large" | "xlarge";
+        const { client } = await api();
+        const { ids, explorePlan, sailing } = await loadSailing(client, opts.sailing);
+        const cart = await safeCart(client, ids);
+        let excs = normalizeExcursions(explorePlan, sailing, cart);
+        if (opts.port) excs = excs.filter((e) => e.portRef === opts.port);
+        await mkdir(opts.out, { recursive: true });
+        const targets = excs
+          .map((e) => ({ ref: e.ref, code: e.code, url: e.images[size] }))
+          .filter((t): t is { ref: string; code: string; url: string } => Boolean(t.url));
+        const result = await downloadImages(client, targets, opts.out);
+        printJson(ok({ size, out: opts.out, total: excs.length, withoutImage: excs.length - targets.length, ...result }));
       } catch (e) {
         printJson(fail(makeError(e)));
       }
@@ -192,4 +219,31 @@ async function safeCart(client: NclApiClient, ids: { voyageId: string; reservati
   } catch {
     return null;
   }
+}
+
+const safeName = (s: string) => s.replace(/[^A-Za-z0-9_-]/g, "_");
+
+// Download image targets with limited concurrency. Each file is {ref}_{code}.jpg.
+async function downloadImages(
+  client: NclApiClient,
+  targets: Array<{ ref: string; code: string; url: string }>,
+  outDir: string,
+): Promise<{ downloaded: number; failed: number }> {
+  const queue = targets.slice();
+  let downloaded = 0;
+  let failed = 0;
+  const worker = async () => {
+    while (queue.length) {
+      const t = queue.shift()!;
+      try {
+        const bytes = await client.getImageBytes(t.url);
+        await writeFile(join(outDir, `${t.ref}_${safeName(t.code)}.jpg`), bytes);
+        downloaded++;
+      } catch {
+        failed++;
+      }
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(8, targets.length) || 1 }, worker));
+  return { downloaded, failed };
 }

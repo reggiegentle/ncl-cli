@@ -1,5 +1,30 @@
-import type { CruiseSailing, Excursion, ExcursionSummary, PortCall } from "./types.js";
+import type { CruiseSailing, Excursion, ExcursionImages, ExcursionSummary, PortCall } from "./types.js";
 import { localRef } from "./safety.js";
+
+// NCL serves excursion images as site-relative Drupal paths off www.ncl.com.
+const IMAGE_BASE = "https://www.ncl.com/";
+
+function firstOf(value: unknown): string | undefined {
+  const v = Array.isArray(value) ? value[0] : value;
+  return typeof v === "string" && v.trim() ? v : undefined;
+}
+
+export function toImageUrl(pathOrNull: unknown): string | undefined {
+  const p = firstOf(pathOrNull);
+  return p ? IMAGE_BASE + encodeURI(p) : undefined;
+}
+
+function imagesFromCms(cms: any): ExcursionImages {
+  const gallery = Array.isArray(cms?.imagesPath)
+    ? cms.imagesPath.map(toImageUrl).filter((u: string | undefined): u is string => Boolean(u))
+    : [];
+  return {
+    thumb: toImageUrl(cms?.smallImgPath),
+    large: toImageUrl(cms?.largeImgPath),
+    xlarge: toImageUrl(cms?.xlargeImgPath),
+    gallery,
+  };
+}
 
 // --- helpers ----------------------------------------------------------------
 
@@ -200,6 +225,7 @@ export function normalizeExcursions(explorePlan: any, sailing: CruiseSailing, ca
       excType: cms.excType ?? undefined,
       soldOut,
       booked: booked.has(code),
+      images: imagesFromCms(cms),
       description: cms.description ?? undefined,
       needToKnow: cms.needToKnow ?? undefined,
     };
@@ -220,5 +246,6 @@ export function summarizeExcursion(exc: Excursion): ExcursionSummary {
     activityLevel: exc.activityLevel,
     soldOut: exc.soldOut,
     booked: exc.booked,
+    image: exc.images.large ?? exc.images.thumb,
   };
 }

@@ -62,6 +62,16 @@ export class NclApiClient {
     return this.request("GET", normalized);
   }
 
+  // Fetch an image (or any binary asset) from an ncl.com URL. Host-locked and
+  // GET-only, same as every other request.
+  async getImageBytes(imageUrl: string): Promise<Buffer> {
+    assertReadOnlyRequest("GET", imageUrl);
+    assertNclHost(imageUrl);
+    const res = await fetch(imageUrl, { method: "GET", headers: { "user-agent": USER_AGENT, cookie: this.cookie } });
+    if (!res.ok) throw new NclApiError(`Image request failed (${res.status}).`, res.status);
+    return Buffer.from(await res.arrayBuffer());
+  }
+
   private async request(method: "GET" | "POST", path: string, extraHeaders: Record<string, string> = {}): Promise<unknown> {
     if (!this.cookie) throw new NclApiError("No NCL session cookie configured. Run `ncl auth import-cdp`.", 401);
     assertReadOnlyRequest(method, path); // read-only guard (throws METHOD_BLOCKED)

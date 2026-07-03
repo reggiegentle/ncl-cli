@@ -32,9 +32,11 @@ node dist/cli.js auth import-cdp --port 9333
 ```bash
 node dist/cli.js cruise list                    # booked sailings (summarized)
 node dist/cli.js cruise get                      # ship, dates, itinerary
-node dist/cli.js excursions list                 # all excursions, summarized
+node dist/cli.js excursions list                 # all excursions, summarized (incl. image url)
 node dist/cli.js excursions list --port port-005 # one port of call
-node dist/cli.js excursions get exc-004          # full detail (needToKnow, description)
+node dist/cli.js excursions list --full          # full objects: detail + image URLs
+node dist/cli.js excursions get exc-004          # full detail (needToKnow, description, images)
+node dist/cli.js excursions images --out ./imgs  # download images (--size thumb|large|xlarge)
 node dist/cli.js excursions report --format markdown --out excursions.md
 node dist/cli.js excursions report --format json # machine-readable digest
 ```

@@ -14,7 +14,9 @@ browse when you just want to compare excursions across ports.
 
 - Lists your booked cruises and full itinerary (ports, dates, sea days).
 - Pulls every shore excursion for the sailing with price (adult/child), duration,
-  start time, activity level, sold-out status, and whether it's already in your cart.
+  start time, activity level, sold-out status, whether it's already in your cart,
+  and image URLs (thumb / large / xlarge / gallery).
+- Can download the excursion images to a folder for design/planning use.
 - Renders a per-port-day markdown digest so you can plan at a glance.
 - Agent-first: every command emits a uniform JSON envelope (`{ ok, data | error }`).
 
@@ -57,9 +59,12 @@ ncl doctor                        # session health check
 ncl cruise list                   # booked cruises (summarized)
 ncl cruise get                    # ship, dates, itinerary
 
-ncl excursions list               # all excursions (summarized)
+ncl excursions list               # all excursions (summarized, incl. image url)
 ncl excursions list --port port-005
-ncl excursions get exc-004        # full detail
+ncl excursions list --full        # full objects: detail + all image URLs
+ncl excursions get exc-004        # full detail for one excursion
+ncl excursions images --out ./imgs                 # download hero images (large)
+ncl excursions images --out ./imgs --size thumb    # or thumb | large | xlarge
 ncl excursions report --format markdown --out excursions.md
 ncl excursions report --format json
 

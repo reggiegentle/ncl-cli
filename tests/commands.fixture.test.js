@@ -20,6 +20,6 @@ test("no command or subcommand exposes a write/mutation verb", () => {
 test("excursions and cruise expose exactly the read subcommands", () => {
   const program = buildProgram();
   const sub = (name) => program.commands.find((c) => c.name() === name).commands.map((s) => s.name()).sort();
-  assert.deepEqual(sub("excursions"), ["get", "list", "report"]);
+  assert.deepEqual(sub("excursions"), ["get", "images", "list", "report"]);
   assert.deepEqual(sub("cruise"), ["get", "list"]);
 });

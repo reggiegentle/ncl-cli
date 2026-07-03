@@ -27,6 +27,10 @@
         "shorexAvailablePurchaseOptions": [{ "language": "English", "dates": ["09/02/2026"] }],
         "cmsData": {
           "code": "NASA01",
+          "smallImgPath": ["sites/default/files/NAS_01_204x138.jpg"],
+          "largeImgPath": ["sites/default/files/NAS_01 1920 LG.jpg"],
+          "xlargeImgPath": ["sites/default/files/NAS_01_1920_XL.jpg"],
+          "imagesPath": ["sites/default/files/NAS_01_281x146.jpg"],
           "title": "Sample Reef Snorkel Adventure",
           "portName": "Nassau, Bahamas",
           "activityLevel": "2",

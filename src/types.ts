@@ -17,6 +17,13 @@ export type CruiseSailing = {
   ports: PortCall[];
 };
 
+export type ExcursionImages = {
+  thumb?: string;   // ~204x138
+  large?: string;   // ~1920x1080
+  xlarge?: string;  // ~1920x1080, higher quality
+  gallery: string[];
+};
+
 export type Excursion = {
   ref: string;        // exc-001
   code: string;       // NCL product code, e.g. "NASA01"
@@ -31,9 +38,10 @@ export type Excursion = {
   currency: string;   // "USD"
   activityLevel?: string;    // "Easy" | "Moderate" | "Demanding" | "Strenuous"
   activityLevelRaw?: string; // upstream numeric level
-  excType?: string;   // "Water" | "Land" | "Cultural" | ...
+  excType?: unknown;  // NCL activity-type taxonomy (array of category objects)
   soldOut: boolean;   // expired or not purchasable
   booked: boolean;    // present in the cart
+  images: ExcursionImages;
   description?: string;
   needToKnow?: string;
 };
@@ -51,4 +59,5 @@ export type ExcursionSummary = {
   activityLevel?: string;
   soldOut: boolean;
   booked: boolean;
+  image?: string; // large image URL (thumb fallback)
 };
